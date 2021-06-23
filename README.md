@@ -1,23 +1,50 @@
 # Algonia
 
-Seamlessly combine different programming languages
+Seamlessly combine different programming languages visually
  
 # Table of contents
 
-- [Intruduction](#introduction)
-  - [What is Algonia](what-is-algonia)
-  - [HelloWorld](helloworld)
+- [Introduction](#introduction)
+  - [What is Algonia](#what-is-algonia)
+  - [HelloWorld](#hello-world)
+- [Architecture](#architecture)  
+  - [Algonia Engine](#algonia-engine)
+  - [Algonia VS](#algonia-vs)
+  - [Algonia Engine Bindings](#algonia-engine-bindings)
 - [Build Instructions](#build-instructions)
   - [Windows](#windows)
   - [Linux](#linux)
   - [MacOS](#macos)
 
+
 # Introduction
 ## What is Algonia
 Algonia is Visual Microservices platform to simplify programming languages interoperability
 ## Hello World
-You can see it in action [here](https://dev.to/tvinko/languages-interoperability-406f).
+You can read more about it and check Hello World example [here](https://dev.to/tvinko/languages-interoperability-406f).
 
+# Architecture
+Algonia platform contains three main parts.
+
+## Algonia Engine
+Independent executing engine capable of hosting different environments and executing code written in different programming languages.<br/>
+It's a gluing mechanism between your and 3rd party libraries.<br/><br/>
+This is Algonia's Engine repository.<br/><br/>
+
+## Algonia VS
+Development tool for combining code visually.<br/>
+You can navigate to Algonia VS repository [here](https://github.com/tvinko/AlgoniaVS).<br/><br/>
+
+## Algonia Engine Bindings
+Algonia Engine is capable to interact and host environments for different programming languages.<br/>
+However, some languages are required to implement standard interface so that communication with Algonia Engine performs flawlessly.
+This is one time task per language.<br/><br/>
+
+Example of language that didn't need any additional bindings is Python. 
+<br/>Both, Python interpreter environment hosting and system calls are performed inside Algonia Engine.<br/><br/>
+Example of language that needed additional bindings is .NET Core.<br/>
+Algonia Engine hosts .NET Core runtime, but tiny wrapper is needed on .NET Core side that offers practically unlimited integration possibilities.<br/><br/>
+You can see .NET Core bindings [here](https://github.com/tvinko/AlgoniaCsNodes)
 
 # Build Instructions
 ## Windows
