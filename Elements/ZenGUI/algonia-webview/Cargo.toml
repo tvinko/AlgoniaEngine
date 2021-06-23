@@ -1,0 +1,16 @@
+[package]
+name = "algonia-webview"
+version = "0.1.0"
+authors = ["Tomaz Vinko <tv@algonia.net>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+web-view = { version = "0.7", features = ["edge"] }
+json = "0.12.4"
+select.rs = "*"
+
+[lib]
+name = "web_view_core"
+crate-type = ["cdylib"]      # Creates dynamic lib

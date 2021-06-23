@@ -1,0 +1,32 @@
+TARGET	= ZenGUI
+
+IDIR	= . ../../ZenCommon ../../libs/ZenCoreCLR  ../../libs/sciter/include
+CC	    = g++
+CFLAGS	= -fPIC  -g -Wno-unused-result -Wsign-compare -Wall -fstack-protector -Wformat -Werror=format-security  -fwrapv -Wall $(foreach d, $(IDIR), -I$d)
+
+ODIR	= .
+LDIR	= . ../../ZenCommon ../../libs/ZenCoreCLR
+LFLAGS	= $(foreach d, $(LDIR), -L$d) -framework AppKit
+
+LIBS	= -lZenCommon -lZenCoreCLR -lpthread -ldl  -lutil -lm
+
+
+_DEPS	= $(TARGET).h ZenCommon.h ZenCoreCLR.h ZenUIBridge.h
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ	= $(TARGET).o ZenUIBridge.o
+OBJ	    = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+#SRC     = $(wildcard *.cpp) 
+SRC     = ZenUIBridge.cpp ZenGUI.cpp
+
+$(ODIR)/%.o: %.cpp
+	  $(CC) -std=c++11  -x objective-c++  -c $(SRC)  $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared -o $@.so $^ $(LFLAGS) $(SRC_OBJ) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

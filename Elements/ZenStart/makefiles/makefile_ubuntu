@@ -1,0 +1,23 @@
+TARGET	= ZenStart
+LIBS	= -lZenCommon
+_DEPS	= ZenCommon.h
+IDIR	= . ../../ZenCommon
+LDIR	= . ../../ZenCommon
+CFLAGS	= -fPIC -O2 $(foreach d, $(IDIR), -I$d)
+LFLAGS	= $(foreach d, $(LDIR), -L$d)
+CC	= gcc
+ODIR	= .
+_OBJ	= $(TARGET).o
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+OBJ		= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	gcc -shared -o $@.so $^ $(LFLAGS) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

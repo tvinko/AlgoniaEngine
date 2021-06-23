@@ -1,0 +1,168 @@
+{
+	"folders": [
+		{
+			"name": "System - ZenEngine",
+			"path": "ZenEngine"
+		},
+		{
+			"name": "System - ZenCommon",
+			"path": "ZenCommon"
+		},
+		{
+			"name": "Lib - ZenCoreCLR",
+			"path": "libs/ZenCoreCLR"
+		},
+		{
+			"name": "Element - ZenRequest",
+			"path": "Elements/ZenRequest"
+		},
+		{
+			"name": "Element - ZenRespond",
+			"path": "Elements/ZenRespond"
+		},
+		{
+			"name": "Element - ZenCsScriptWrapper",
+			"path": "Elements/ZenCsScriptWrapper"
+		},
+		{
+			"name": "Element - ZenCounter",
+			"path": "Elements/ZenCounter"
+		},
+		{
+			"name": "Element - ZenDebugWrapper",
+			"path": "Elements/ZenDebugWrapper"
+		},
+		{
+			"name": "Element - ZenElementsExecuterWrapper",
+			"path": "Elements/ZenElementsExecuterWrapper"
+		},
+		{
+			"name": "Element - ZenPropertiesSetterWrapper",
+			"path": "Elements/ZenPropertiesSetterWrapper"
+		},
+		{
+			"name": "Element - ZenSqlServerWrapper",
+			"path": "Elements/ZenSqlServerWrapper"
+		},
+		{
+			"name": "Element - ZenSleep",
+			"path": "Elements/ZenSleep"
+		},
+		{
+			"name": "Element - ZenStart",
+			"path": "Elements/ZenStart"
+		},
+		{
+			"name": "Element - ZenPython",
+			"path": "Elements/ZenPython"
+		},
+		{
+			"name": "Element - ZenGUI",
+			"path": "Elements/ZenGUI"
+		},
+		{
+			"name": "Element - ZenNodeJS",
+			"path": "Elements/ZenNodeJS"
+		},
+		{
+			"name": "Element - ZenStop",
+			"path": "Elements/ZenStop"
+		},
+		{
+			"name": "Managed - CsScript",
+			"path": "../AlgoniaCsNodes/nodes/CsScript"
+		},
+		{
+			"name": "Managed - Debug",
+			"path": "../AlgoniaCsNodes/nodes/Debug"
+		},
+		{
+			"name": "Managed - ElementActionCaller",
+			"path": "../AlgoniaCsNodes/nodes/ElementActionCaller"
+		},
+		{
+			"name": "Managed - ElementsExecuter",
+			"path": "../AlgoniaCsNodes/nodes/ElementsExecuter"
+		},
+		{
+			"name": "Managed - SqlServer",
+			"path": "../AlgoniaCsNodes/nodes/SqlServer"
+		},
+		{
+			"name": "ManagedLibs - CsScriptCore",
+			"path": "../AlgoniaCsNodes/libs/CsScriptCore"
+		},
+		{
+			"name": "ManagedCommon - Common",
+			"path": "../AlgoniaCsNodes/common"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"istream": "cpp",
+			"memory": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp",
+			"xlocnum": "cpp",
+			"xstring": "c",
+			"system_error": "cpp",
+			"xlocale": "c",
+			"zenmlrowsfilterwrapper.h": "c",
+			"initializer_list": "cpp",
+			"xutility": "cpp",
+			"cmath": "cpp",
+			"concepts": "cpp",
+			"cstddef": "cpp",
+			"cstdint": "cpp",
+			"cstdio": "cpp",
+			"cstdlib": "cpp",
+			"cstring": "cpp",
+			"cwchar": "cpp",
+			"exception": "cpp",
+			"ios": "cpp",
+			"iosfwd": "cpp",
+			"iostream": "cpp",
+			"limits": "cpp",
+			"new": "cpp",
+			"ostream": "cpp",
+			"set": "cpp",
+			"stdexcept": "cpp",
+			"streambuf": "cpp",
+			"typeinfo": "cpp",
+			"xfacet": "cpp",
+			"xiosbase": "cpp",
+			"xlocinfo": "cpp",
+			"xmemory": "cpp",
+			"xstddef": "cpp",
+			"xtr1common": "cpp",
+			"xtree": "cpp",
+			"algorithm": "cpp",
+			"array": "cpp",
+			"atomic": "cpp",
+			"cctype": "cpp",
+			"chrono": "cpp",
+			"clocale": "cpp",
+			"condition_variable": "cpp",
+			"iterator": "cpp",
+			"list": "cpp",
+			"map": "cpp",
+			"mutex": "cpp",
+			"optional": "cpp",
+			"ratio": "cpp",
+			"shared_mutex": "cpp",
+			"string": "cpp",
+			"thread": "cpp",
+			"unordered_map": "cpp",
+			"vector": "cpp",
+			"xhash": "cpp",
+			"stdbool.h": "c",
+			"compare": "cpp",
+			"*.idl": "cpp",
+			"deque": "cpp",
+			"functional": "cpp",
+			"queue": "cpp",
+			"future": "c"
+		}
+	}
+}

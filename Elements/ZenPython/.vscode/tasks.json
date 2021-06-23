@@ -1,0 +1,107 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug-py36",
+            "windows": {
+                "command": "build/build_win64_py36.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        ,
+        {
+            "label": "build-release-py36",
+            "windows": {
+                "command": "build/rbuild_win64_py36.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-debug-py37",
+            "windows": {
+                "command": "build/build_win64_py37.bat"
+            },
+            "osx": {
+                "command": "make -f makefile_mac_py37_debug clean && make -f makefile_mac_py37_debug && mv ./ZenPython.so ../../ZenEngine/Implementations/ZenPython37.so",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release-py37",
+            "windows": {
+                "command": "build/rbuild_win64_py37.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        ,
+        {
+            "label": "build-debug-py38",
+            "windows": {
+                "command": "build/build_win64_py38.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release-py38",
+            "windows": {
+                "command": "build/rbuild_win64_py38.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        ,
+        {
+            "label": "build-debug-py39",
+            "windows": {
+                "command": "build/build_win64_py39.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release-py39",
+            "windows": {
+                "command": "build/rbuild_win64_py39.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

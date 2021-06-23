@@ -1,0 +1,23 @@
+TARGET	= ZenCoreCLR
+LIBS	= -lZenCommon
+_DEPS	= ZenCoreCLR.h ZenCommon.h
+IDIR	= . ../../ZenCommon
+LDIR	= . ../../ZenCommon
+CFLAGS	= -fPIC -O2 $(foreach d, $(IDIR), -I$d)
+LFLAGS	= $(foreach d, $(LDIR), -L$d)
+CC		= g++
+ODIR	= .
+_OBJ	= $(TARGET).o
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+OBJ	= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.cpp
+	$(CC) -c   -o $@ $< $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared  -o lib$@.so $^ $(LFLAGS) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

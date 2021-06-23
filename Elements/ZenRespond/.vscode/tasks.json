@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug",
+            "windows": {
+                "command": "build/build_win64.bat"
+            }
+            ,
+            "osx": {
+                "command": "make -f makefile_debug clean && make -f makefile_debug && cp ./ZenRespond.so ../../ZenEngine/Implementations",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release",
+            "windows": {
+                "command": "build/rbuild_win64.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

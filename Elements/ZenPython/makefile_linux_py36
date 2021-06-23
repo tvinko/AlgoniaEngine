@@ -1,0 +1,30 @@
+TARGET	= ZenPython
+
+IDIR	= . ../../ZenCommon ../../libs/logging ../../libs/ZenCoreCLR  /usr/local/include/python3.6m /usr/local/include/python3.6m
+CC	    = gcc
+CFLAGS	= -fPIC -Wno-unused-result -Wsign-compare  -DNDEBUG -g -fwrapv -O3 -Wall $(foreach d, $(IDIR), -I$d)
+
+ODIR	= .
+LDIR	= . ../../ZenCommon ../../libs/ZenCoreCLR  /usr/local/lib
+LFLAGS	=  $(foreach d, $(LDIR), -L$d)
+
+LIBS	= -lZenCommon -lZenCoreCLR -lpython3.6m -lpthread -ldl  -lutil -lm  -Xlinker -export-dynamic
+
+_DEPS	= $(TARGET).h ZenCommon.h ZenCoreCLR.h Python.h
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ	= $(TARGET).o
+OBJ	    = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+SRC     = $(wildcard *.c) 
+
+$(ODIR)/%.o: %.c
+	$(CC) -c $(SRC)  $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared  -o $@.so $^ $(LFLAGS) $(SRC_OBJ) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

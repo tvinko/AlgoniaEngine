@@ -1,0 +1,218 @@
+/*
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Sciter Application example</title>
+    </head>
+
+    <script type="text/tiscript">
+	$(#test).onClick = function() {
+	    try {        
+		view.msgbox('started');
+	      view.setText('dsadas');
+		  view.getText();              
+		  view.msgbox( view.getText());
+		  view.msgbox('ended');
+	    }
+	    catch (e) { view.msgbox(#alert, e); }
+      	};
+    </script>
+	
+	<script type="text/tiscript">
+    namespace Test {
+        function add(n1,n2) 
+		{ 
+			view.msgbox('add');
+			return n1+n2; 
+		}
+    }
+</script>
+    <body>
+        <button name="TestButton" id="test">TEST</button>
+    </body>
+</html>
+*/
+
+#include "ZenCommon.h"
+
+#if defined(_WIN32)
+#include <windows.h>
+#include "plain-win.h"
+#endif
+#include "sciter-x.h"
+#include "sciter-x-graphics.hpp"
+#include "sciter-x-window.hpp"
+#include "sciter-om.h"
+#include "stdafx.h"
+#include <functional>
+#include "aux-cvt.h"
+
+HINSTANCE ghInstance = 0;
+
+#define WINDOW_CLASS_NAME L"sciter-plain-window"
+
+class editor : public sciter::event_handler
+{
+public:
+    HELEMENT self;
+
+    editor() : event_handler(),
+               self(0) {}
+
+    #if defined(_WIN32)
+    std::wstring text;
+    #else
+    std::string text;
+    #endif
+
+    BEGIN_FUNCTION_MAP
+    FUNCTION_0("getText", get_text)
+    FUNCTION_1("setText", set_text)
+    END_FUNCTION_MAP
+
+    
+    sciter::value get_text()
+    {
+        return sciter::value(text);
+    }
+
+    sciter::value set_text(const sciter::value &text_val)
+    {
+        #if defined(_WIN32)
+        std::string astr = aux::w2a(text_val.get(L""));
+        char *node_id = new char[astr.length() + 1];
+        strcpy(node_id, astr.c_str());
+
+        //Node *node = common_get_node_by_id(node_id);
+        //common_exec_node(node);
+
+        text = text_val.get(L"");
+        #endif
+        return sciter::value(); // returns undefined value, a.k.a. void
+    }
+    
+    virtual void attached(HELEMENT he)
+    {
+    }
+};
+
+#if defined(_WIN32)
+editor _editor;
+bool _isLoaded = false;
+
+window::window()
+{
+    static ATOM cls = 0;
+    WNDCLASSEX wcex;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = wnd_proc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = ghInstance;
+    wcex.hIcon = LoadIcon(ghInstance, MAKEINTRESOURCE(IDI_PLAINWIN));
+    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = 0; //MAKEINTRESOURCE(IDC_PLAINWIN);
+    wcex.lpszClassName = WINDOW_CLASS_NAME;
+    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+    cls = RegisterClassEx(&wcex);
+
+    _hwnd = CreateWindow(WINDOW_CLASS_NAME, L"demo", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, ghInstance, this);
+    sciter::attach_dom_event_handler(_hwnd, &_editor);
+
+    if (!_hwnd)
+        return;
+
+    init();
+
+    ShowWindow(_hwnd, SW_SHOW);
+    UpdateWindow(_hwnd);
+}
+
+window *window::ptr(HWND hwnd)
+{
+    return reinterpret_cast<window *>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+}
+
+bool window::init()
+{
+    SetWindowLongPtr(_hwnd, GWLP_USERDATA, LONG_PTR(this));
+    setup_callback();
+    return true;
+}
+
+LRESULT CALLBACK window::wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    BOOL handled = FALSE;
+    LRESULT lr = SciterProcND(hWnd, message, wParam, lParam, &handled);
+
+    if (handled)   // if it was handled by the Sciter
+        return lr; // then no further processing is required.
+
+    if (message == WM_KEYDOWN && wParam == VK_F2)
+    {
+        // testing sciter::host<window>::call_function() and so SciterCall ()
+        window *self = ptr(hWnd);
+        sciter::dom::element root = self->get_root();
+
+        sciter::value r;
+        try
+        {
+            r = root.call_function("Test.add", sciter::value(2), sciter::value(2));
+        }
+        catch (sciter::script_error &err)
+        {
+            std::cerr << err.what() << std::endl;
+        }
+        //or sciter::value r = self->call_function("Test.add",sciter::value(2),sciter::value(2));
+
+        return 0;
+    }
+
+    switch (message)
+    {
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    case WM_CREATE:
+        // SciterProcND has created instance of the engine for the HWND
+        // while handling WM_CREATE thus we can load content:
+        SciterLoadFile(hWnd, L"file://D:/tmp/StockPrices/templates/StockPrices/assets/app.html");
+        break;
+    }
+    return DefWindowProc(hWnd, message, wParam, lParam);
+}
+#endif
+EXTERN_DLL_EXPORT int onImplementationLoad(Node *node)
+{
+    #if defined(_WIN32)
+    MSG msg;
+    HACCEL hAccelTable;
+
+    window w;
+
+    SciterSetOption(NULL, SCITER_SET_SCRIPT_RUNTIME_FEATURES,
+                    ALLOW_FILE_IO |
+                        ALLOW_SOCKET_IO |
+                        ALLOW_EVAL |
+                        ALLOW_SYSINFO);
+
+    hAccelTable = LoadAccelerators(NULL, MAKEINTRESOURCE(IDC_PLAINWIN));
+
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
+    OleUninitialize();
+    #endif
+    return 0;
+}

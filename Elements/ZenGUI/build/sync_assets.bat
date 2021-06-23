@@ -1,0 +1,1 @@
+robocopy "%ZENO_ROOT%/Elements/ZenGUI/assets/" "%ZENO_ROOT%/ZenEngine/bin/Debug/assets/" /E

@@ -1,0 +1,23 @@
+TARGET	= ZenCsScriptWrapper
+LIBS	= -lZenCommon -lZenCoreCLR
+_DEPS	= ZenCommon.h ZenCoreCLR.h
+IDIR	= . ../../ZenCommon ../../Drivers/ZenCoreCLR
+LDIR	= . ../../ZenCommon ../../Drivers/ZenCoreCLR
+CFLAGS	= -fPIC -O2 $(foreach d, $(IDIR), -I$d)
+LFLAGS	= $(foreach d, $(LDIR), -L$d)
+CC	= gcc
+ODIR	= .
+_OBJ	= $(TARGET).o
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+OBJ	= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared -o $@.so $^ $(LFLAGS) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 

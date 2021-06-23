@@ -1,0 +1,72 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug-lib",
+            "windows": {
+                "command": "build/lib_build_win64.bat",
+            },
+            "osx": {
+                "command": "make",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release-lib",
+            "windows": {
+                "command": "build/lib_rbuild_win64.bat",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-debug",
+            "windows": {
+                "command": "build/build_win64.bat",
+            },
+            "osx": {
+                "command": "make clean && make -f makefile_debug && cp ../ZenCommon/libZenCommon.so . && cp ../libs/ZenCoreCLR/libZenCoreCLR.so . ",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release",
+            "windows": {
+                "command": "build/rbuild_win64.bat",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run commit log",
+            "type": "shell",
+            "windows": {
+              "command": "git rev-parse --short=7 HEAD > ${workspaceRoot}/commit.txt"
+            },
+            "group": "test",
+            "presentation": {
+              "reveal": "always",
+              "panel": "new"
+            }
+          }
+    ]
+}
+  

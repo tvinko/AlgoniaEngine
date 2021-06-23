@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-debug-win64",
+            "windows": {
+                "command": "build/build_win64.bat; cp bin/Debug/ZenCsScriptWrapper.dll  ${env:ZENO_PROJ}/Implementations/"
+            },
+            "osx": {
+                "command": "make -f makefile_debug clean && make -f makefile_debug && cp ./ZenCsScriptWrapper.so ../../ZenEngine/Implementations",
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build-release-win64",
+            "windows": {
+                "command": "build/rbuild_win64.bat"
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

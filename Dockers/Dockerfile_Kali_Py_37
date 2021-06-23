@@ -1,0 +1,21 @@
+FROM  kalilinux/kali-linux-docker
+COPY . /home/zenodys/app
+
+ENV packages pip_package
+ENV template elements.compiled
+ENV installs installs
+
+RUN apt-get update -y && apt-get upgrade -y  && \
+	apt-get install build-essential -y  && \	
+	apt-get install -y wget curl git-core && \
+	apt-get install -y cmake && \
+	apt-get install -y icu-devtools -y  && \	
+	apt-get install -y python3.7-dev && \
+	apt-get update -y && apt-get upgrade -y  && \
+	apt-get install -y python3-pip && \
+	cp /home/zenodys/app/libZenCoreCLR.so /usr/lib && \
+	cp /home/zenodys/app/libZenCommon.so /usr/lib && \
+	export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
+WORKDIR /home/zenodys/app
+CMD ["sh", "-c", "python3.7 -m pip install ${packages} ; ${installs}; /home/zenodys/app/ZenEngine /templates/${template} 0"]

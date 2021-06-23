@@ -1,0 +1,33 @@
+TARGET 	= ZenCommon
+
+IDIR   	= . ../libs/logging ../libs/cJSON/src ../libs/b64/src
+CC	    = gcc
+CFLAGS	= -fPIC -O2 $(foreach d, $(IDIR), -I$d) 
+
+ODIR	= .
+LDIR 	= .
+LFLAGS	= $(foreach d, $(LDIR), -L$d) 
+
+
+LIBS   	=
+
+_DEPS  	= $(TARGET).h
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ	= $(TARGET).o cJSON.o decode.o encode.o log.o
+OBJ	= $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+SRC     = $(wildcard *.c) ../libs/logging/log.c ../libs/cJSON/src/cJSON.c  ../libs/b64/src/decode.c ../libs/b64/src/encode.c
+
+
+$(ODIR)/%.o: %.c
+	$(CC) -c $(SRC)  $(CFLAGS)
+	
+$(TARGET): $(OBJ)
+	$(CC) -shared  -o lib$@.so $^ $(LFLAGS) $(SRC_OBJ) $(LIBS)
+
+.PHONY: clean
+
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~

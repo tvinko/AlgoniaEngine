@@ -1,0 +1,33 @@
+# Find Python ld flags and includes
+# /usr/local/bin/python3.8-config --includes
+# /usr/local/bin/python3.8-config --ldflags 
+TARGET	= ZenPython
+
+IDIR	= . ../../ZenCommon ../../libs/logging ../../libs/ZenCoreCLR /Library/Frameworks/Python.framework/Versions/3.8/include/python3.8 /Library/Frameworks/Python.framework/Versions/3.8/include/python3.8
+CC	    = gcc
+CFLAGS	= -fPIC -O2 -Wno-unused-result -Wsign-compare -Wall -fstack-protector -Wformat -Werror=format-security  -fwrapv -Wall $(foreach d, $(IDIR), -I$d)
+
+ODIR	= .
+LDIR	= . ../../ZenCommon ../../libs/ZenCoreCLR /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/config-3.8-darwin  
+LFLAGS	= $(foreach d, $(LDIR), -L$d)
+
+LIBS	= -lZenCommon -lZenCoreCLR -lpython3.8  -lpthread -ldl  -lutil -lm -framework CoreFoundation
+
+_DEPS	= $(TARGET).h ZenCommon.h ZenCoreCLR.h Python.h
+DEPS	= $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ	= $(TARGET).o
+OBJ	    = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+SRC     = $(wildcard *.c) 
+
+$(ODIR)/%.o: %.c
+	$(CC) -c $(SRC)  $(CFLAGS)
+
+$(TARGET): $(OBJ)
+	$(CC) -shared  -o $@.so $^ $(LFLAGS) $(SRC_OBJ) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.so $(ODIR)/*.o *~ core $(INCDIR)/*~ 
